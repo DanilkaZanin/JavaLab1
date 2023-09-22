@@ -20,7 +20,7 @@ public class MyList<T> {
         tail = null;
     }
 
-    public void Mylist(T t){
+    public MyList(T t){
         head = new Node<>(t);
         tail = null;
     }
