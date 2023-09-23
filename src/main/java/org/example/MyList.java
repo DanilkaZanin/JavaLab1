@@ -1,9 +1,11 @@
 package org.example;
 
+import java.sql.SQLOutput;
+
 public class MyList<T> {
 
     private Node head;
-    private Node tail;
+    private int size;
 
     private class Node <T>{
         public T value;
@@ -17,12 +19,12 @@ public class MyList<T> {
 
     public MyList(){
         head = null;
-        tail = null;
+        size = 0;
     }
 
     public MyList(T t){
         head = new Node<>(t);
-        tail = null;
+        size = 1;
     }
 
     public void add(T t){
@@ -37,7 +39,43 @@ public class MyList<T> {
         }
         else{
             head = new Node<>(t);
-            tail = null;
+        }
+        size += 1;
+    }
+
+    public void delete(T t){
+        int count = 0;
+        int countOfDeleted = 0;
+        if(head != null){
+            Node current = head;
+            Node prev = null;
+
+            do{
+                if(current.value != t){
+                    prev = current;
+                    current = current.next;
+                }
+                else {
+                    if(prev != null) {
+                        prev.next = current.next;
+                        current = current.next;
+                    }
+                    else{
+                        head = head.next;
+                    }
+
+                    countOfDeleted += 1;
+                }
+            }while(current != null);
+
+            if(countOfDeleted != 0){
+                System.out.println("Удалено " + countOfDeleted + " переменных!");
+            }else{
+                System.out.println("В списке таких значений нету");
+            }
+        }
+        else{
+            System.err.println("Список пуст!");
         }
     }
 
@@ -45,10 +83,15 @@ public class MyList<T> {
 
         Node h1 = head;
 
-        while(h1.next != null){
+        do{
             System.out.print(h1.value + " ");
             h1 = h1.next;
-        }
-        System.out.print(h1.value + " ");
+        }while (h1 != null);
+
+        System.out.println();
+    }
+
+    public int size(){
+        return size;
     }
 }

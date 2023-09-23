@@ -10,6 +10,12 @@ public class Main {
            list.add(i);
        }
 
+       list.add(5);
+
+       list.print();
+
+       list.delete(12);
+
        list.print();
     }
 
