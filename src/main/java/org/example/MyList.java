@@ -4,6 +4,12 @@ import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+/**
+ * Класс MyList реализует односвязный список и все его основные методы
+ *
+ * @param <T> тип данных использующийся при работе с классом
+ *
+ * @author danila */
 public class MyList<T>  implements Iterable<T>{
 
     private Node head;
@@ -19,11 +25,29 @@ public class MyList<T>  implements Iterable<T>{
         }
     }
 
+    /**
+     * Конструктором по умолчанию
+     *
+     * @example <p>Пример искользования конструктора:
+     *      <pre>{@code
+     *           Mylist list = new Mylist();
+     *      }</pre>
+     * */
     public MyList(){
         head = null;
         size = 0;
     }
 
+    /**
+     * Конструктором с одним параметром
+     *
+     * @param t - принимает любой тип данных
+     *
+     * @example <p>Пример искользования конструктора:
+     *      <pre>{@code
+     *           Mylist list = new Mylist(1);
+     *      }</pre>
+     * */
     public MyList(T t){
         head = new Node<>(t);
         size = 1;
@@ -116,4 +140,5 @@ public class MyList<T>  implements Iterable<T>{
     public int size(){
         return size;
     }
+
 }
