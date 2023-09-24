@@ -26,7 +26,7 @@ public class MyList<T> implements Iterable<T>{
     /**
      * Конструктором по умолчанию
      *
-     * @example <p>Пример искользования конструктора:
+     * @example <p>Пример использования конструктора:
      *      <pre>{@code
      *           MyList list = new MyList();
      *      }</pre>
@@ -41,19 +41,44 @@ public class MyList<T> implements Iterable<T>{
      *
      * @param t - принимает любой тип данных
      *
-     * @example <p>Пример искользования конструктора:
+     * @example <p>Пример использования конструктора:
      *      <pre>{@code
      *           MyList list = new MyList(1);
      *      }</pre>
      * */
     public MyList(T t){
-        head = new Node<>(t);
-        size = 1;
-    }
-    public MyList(T[] t){
-        for(T i: t){
-            add(i);
+        try {
+            head = new Node<>(t);
+            size = 1;
+        }catch (NullPointerException e){
+            System.err.println("Ноль вставлять нечестно!");
+
+            head = null;
+            size = 0;
         }
+    }
+
+    /**
+     * Конструктор, который позволяет преобразовывать массив в список
+     *
+     * @param t - приминает массив
+     *
+     * @example <p>Пример использования конструктора:
+     *            <pre>{@code
+     *                  Integer[] i = {1,2,3,4,5,6,7,8};
+     *                  MyList<Integer> list = new MyList<>(i);
+     *            }</pre>
+     * */
+    public MyList(T[] t){
+        try{
+            for(T i: t){
+                add(i);
+            }
+        }catch(NullPointerException e){
+            head = null;
+            size = 0;
+        }
+
     }
 
     @Override
@@ -71,12 +96,17 @@ public class MyList<T> implements Iterable<T>{
 
         @Override
         public T next() {
-            T value = (T) current.value;
+            T value = (T) current.value; // не очень понятно, почему он просит меня кастить к T, ведь value имеет тип T
             current = current.next;
             return value;
         }
     }
 
+    /**
+     * С помощью метода add можно добавить значение в список
+     *
+     * @param t - элемент, который требуется добавить
+     * */
     public void add(T t){
         if(head!= null){
             Node h1 = head;
@@ -93,7 +123,66 @@ public class MyList<T> implements Iterable<T>{
         size += 1;
     }
 
-    public void delete(T t){
+    /**
+     * Метод contains проверяет, содержит ли список необходимый элемент
+     *
+     * @param t - искомый элемент
+     *
+     * @return True, если искомый элемент содержится в списке. False, если искомого элемента нет
+     **/
+    public boolean contains(T t){
+        Node h1 = head;
+        do{
+            if(h1.value == t){
+                return true;
+            }
+            h1 = h1.next;
+        }while (h1.next != null);
+        return false;
+    }
+
+    /**
+     * Метод set заменяет элемент по указанному индексу новым элементом.
+     *
+     * @param index - индекс элемента, которй необходимо заменить.
+     *
+     * @param element - значение, которое необходимо вставить.
+     * */
+    public void set(int index, T element){
+
+        if(index < size){
+            int i = 0;
+            Node h1 = head;
+
+            while(i <= index){
+                h1 = h1.next;
+                i++;
+            }
+            h1.value = element;
+
+        }else {
+            System.out.println("Такое действие невозможно! ");
+        }
+    }
+
+    public void remove(int index){ //Хотелось бы сделать аут оф индекс эксепшен
+        if(index <= size){
+            if(index == 0){
+                head = head.next;
+            }else{
+                Node current = head;
+
+                for(int i = 0; i < index - 1; i++){
+                    current = current.next;
+                }
+
+                current.next = current.next.next;
+            }
+        }else{
+            System.out.println("OutOfIndexExceptionDemo!");
+        }
+    }
+    public void deleteType(T t){
         int count = 0;
         int countOfDeleted = 0;
         if(head != null){
@@ -131,18 +220,26 @@ public class MyList<T> implements Iterable<T>{
 
     public void print(){
 
-        Node h1 = head;
+        try{
+            Node h1 = head;
 
-        do{
-            System.out.print(h1.value + " ");
-            h1 = h1.next;
-        }while (h1 != null);
+            do{
+                System.out.print(h1.value + " ");
+                h1 = h1.next;
+            }while (h1 != null);
 
-        System.out.println();
+            System.out.println();
+        }catch (NullPointerException e){
+            System.out.println("Невозможно вывести список. Список пуст!");
+        }
     }
 
     public int size(){
         return size;
+    }
+
+    public boolean isEmpty(){
+        return head == null;
     }
 
 }
