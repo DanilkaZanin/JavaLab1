@@ -1,8 +1,6 @@
 package org.example;
 
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 /**
  * Класс MyList реализует односвязный список и все его основные методы
@@ -10,7 +8,7 @@ import java.util.function.Consumer;
  * @param <T> тип данных использующийся при работе с классом
  *
  * @author danila */
-public class MyList<T>  implements Iterable<T>{
+public class MyList<T> implements Iterable<T>{
 
     private Node head;
     private int size;
@@ -30,7 +28,7 @@ public class MyList<T>  implements Iterable<T>{
      *
      * @example <p>Пример искользования конструктора:
      *      <pre>{@code
-     *           Mylist list = new Mylist();
+     *           MyList list = new MyList();
      *      }</pre>
      * */
     public MyList(){
@@ -45,7 +43,7 @@ public class MyList<T>  implements Iterable<T>{
      *
      * @example <p>Пример искользования конструктора:
      *      <pre>{@code
-     *           Mylist list = new Mylist(1);
+     *           MyList list = new MyList(1);
      *      }</pre>
      * */
     public MyList(T t){
@@ -60,17 +58,23 @@ public class MyList<T>  implements Iterable<T>{
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new MyListIterator();
     }
 
-    @Override
-    public void forEach(Consumer<? super T> action) {
-        Iterable.super.forEach(action);
-    }
+    private class MyListIterator implements Iterator<T> {
+        private Node current = head;
 
-    @Override
-    public Spliterator<T> spliterator() {
-        return Iterable.super.spliterator();
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            T value = (T) current.value;
+            current = current.next;
+            return value;
+        }
     }
 
     public void add(T t){
