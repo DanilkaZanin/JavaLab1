@@ -165,6 +165,10 @@ public class MyList<T> implements Iterable<T>{
         }
     }
 
+    /**
+     * Метод remove используется когда необходимо удалить 1 элемент в списке
+     *
+     * @param index - индекс элемента, который требуется удалить*/
     public void remove(int index){ //Хотелось бы сделать аут оф индекс эксепшен
         if(index <= size){
             if(index == 0){
@@ -182,6 +186,12 @@ public class MyList<T> implements Iterable<T>{
             System.out.println("OutOfIndexExceptionDemo!");
         }
     }
+
+    /**
+     * Метод deleteType удаляет все переменные в списке,
+     * значение которых совпадает со значением указанном в агрументе метода
+     *
+     * @param t - значение, которое будет искать метод*/
     public void deleteType(T t){
         int count = 0;
         int countOfDeleted = 0;
@@ -218,6 +228,9 @@ public class MyList<T> implements Iterable<T>{
         }
     }
 
+    /**
+     * Метод принт выводит все элементы списка в строку
+     * */
     public void print(){
 
         try{
@@ -233,13 +246,19 @@ public class MyList<T> implements Iterable<T>{
             System.out.println("Невозможно вывести список. Список пуст!");
         }
     }
-
+    /**Метод size показывает текущий размер списка*/
     public int size(){
         return size;
     }
 
+    /**Метод isEmpty нужен для проверки списка на пустоту*/
     public boolean isEmpty(){
         return head == null;
+    }
+
+    public void clear(){
+        head = null;
+        size = 0;
     }
 
 }
