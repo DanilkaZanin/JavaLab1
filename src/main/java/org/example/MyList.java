@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @param <T> тип данных использующийся при работе с классом
  *
  * @author danila */
-public class MyList<T> implements Iterable<T>{
+public class MyList<T>{
 
     private Node head;
     private int size;
@@ -20,6 +20,11 @@ public class MyList<T> implements Iterable<T>{
         public Node(T t){
             value = t;
             next = null;
+        }
+
+        @Override
+        public String toString() {
+            return " " + value;
         }
     }
 
@@ -81,7 +86,7 @@ public class MyList<T> implements Iterable<T>{
 
     }
 
-    @Override
+
     public Iterator<T> iterator() {
         return new MyListIterator();
     }
@@ -96,6 +101,7 @@ public class MyList<T> implements Iterable<T>{
 
         @Override
         public T next() {
+            @SuppressWarnings("unchecked")
             T value = (T) current.value; // не очень понятно, почему он просит меня кастить к T, ведь value имеет тип T
             current = current.next;
             return value;
@@ -122,7 +128,24 @@ public class MyList<T> implements Iterable<T>{
         }
         size += 1;
     }
+    /** Метод добавляет значение T на позицию index */
+    public void add(T t, int index){
+        if(index > size - 1){
+            System.out.println("Такого индекса нету");
+        }else{
+            Node current = head;
 
+            for(int i = 0; i < index - 1; i++){
+                current = current.next;
+            }
+            Node next = current.next;
+            Node value = new Node<>(t);
+
+            current.next = value;
+            value.next = next;
+
+        }
+    }
     /**
      * Метод contains проверяет, содержит ли список необходимый элемент
      *
@@ -259,6 +282,7 @@ public class MyList<T> implements Iterable<T>{
         return head == null;
     }
 
+    /**Метод clear чистит весь список*/
     public void clear(){
         head = null;
         size = 0;
