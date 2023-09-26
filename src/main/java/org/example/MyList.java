@@ -182,6 +182,7 @@ public class MyList<T> implements Iterable<T>{
 
                 current.next = current.next.next;
             }
+            size--;
         }else{
             System.out.println("OutOfIndexExceptionDemo!");
         }
@@ -192,7 +193,7 @@ public class MyList<T> implements Iterable<T>{
      * значение которых совпадает со значением указанном в агрументе метода
      *
      * @param t - значение, которое будет искать метод*/
-    public void deleteType(T t){
+    public void removeType(T t){
         int count = 0;
         int countOfDeleted = 0;
         if(head != null){
@@ -222,6 +223,8 @@ public class MyList<T> implements Iterable<T>{
             }else{
                 System.out.println("В списке таких значений нету");
             }
+
+            size -=countOfDeleted;
         }
         else{
             System.err.println("Список пуст!");
