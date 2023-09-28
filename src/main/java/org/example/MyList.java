@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Exceptions.MyException;
+
 import java.util.Iterator;
 
 /**
@@ -192,8 +194,11 @@ public class MyList<T>{
      * Метод remove используется когда необходимо удалить 1 элемент в списке
      *
      * @param index - индекс элемента, который требуется удалить*/
-    public void remove(int index){ //Хотелось бы сделать аут оф индекс эксепшен
-        if(index <= size){
+    public void remove(int index){
+        try{
+            if(index <= size){
+                throw new Exception("Передаваемый в параметре индекс больше размера списка!");
+            }
             if(index == 0){
                 head = head.next;
             }else{
@@ -206,8 +211,8 @@ public class MyList<T>{
                 current.next = current.next.next;
             }
             size--;
-        }else{
-            System.out.println("OutOfIndexExceptionDemo!");
+        }catch (Exception e){
+            System.err.println(e.getMessage());
         }
     }
 
@@ -217,9 +222,16 @@ public class MyList<T>{
      *
      * @param t - значение, которое будет искать метод*/
     public void removeType(T t){
-        int count = 0;
-        int countOfDeleted = 0;
-        if(head != null){
+
+        //int count = 0;
+
+        try{
+
+            if(head == null) {
+                throw new MyException("Список пуст!");
+            }
+            int countOfDeleted = 0;
+
             Node current = head;
             Node prev = null;
 
@@ -248,9 +260,8 @@ public class MyList<T>{
             }
 
             size -=countOfDeleted;
-        }
-        else{
-            System.err.println("Список пуст!");
+        }catch (MyException e){
+            e.printMessage();
         }
     }
 
@@ -260,6 +271,10 @@ public class MyList<T>{
     public void print(){
 
         try{
+            if (head == null){
+                throw new MyException("Список пуст!");
+            }
+
             Node h1 = head;
 
             do{
@@ -268,10 +283,11 @@ public class MyList<T>{
             }while (h1 != null);
 
             System.out.println();
-        }catch (NullPointerException e){
-            System.out.println("Невозможно вывести список. Список пуст!");
+        }catch (MyException e){
+            e.printMessage();
         }
     }
+
     /**Метод size показывает текущий размер списка*/
     public int size(){
         return size;

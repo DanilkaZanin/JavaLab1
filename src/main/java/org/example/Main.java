@@ -5,14 +5,13 @@ import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) {
-        Integer[] a = {1, 2, 3, 4, 5, 6, 7, 8};
+        Integer[] a = {1, 2, 3, 4, 5, 6, 7, 8, 2};
 
-        MyList<Integer> list = new MyList<>(a);
+        MyList<Integer> list = new MyList<>();
 
-        list.print();
-
-        list.add(10,3);
+        list.removeType(2);
 
         list.print();
+
     }
 }
