@@ -1,5 +1,4 @@
 import org.example.MyList;
-import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;

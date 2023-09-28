@@ -58,7 +58,7 @@ public class MyList<T>{
             head = new Node<>(t);
             size = 1;
         }catch (NullPointerException e){
-            System.err.println("Ноль вставлять нечестно!");
+            System.err.println("Null вставлять нечестно, будем считать что список пуст!");
 
             head = null;
             size = 0;
@@ -131,13 +131,15 @@ public class MyList<T>{
         size += 1;
     }
     /** Метод добавляет значение T на позицию index */
-    public void add(T t, int index){
-        if(index > size - 1){
-            System.out.println("Такого индекса нету");
-        }else{
+    public void add(T t, int index) {
+        try {
+            if (index > size - 1) {
+                throw new MyException("Такого индекса нету");
+            }
+
             Node current = head;
 
-            for(int i = 0; i < index - 1; i++){
+            for (int i = 0; i < index - 1; i++) {
                 current = current.next;
             }
             Node next = current.next;
@@ -145,7 +147,8 @@ public class MyList<T>{
 
             current.next = value;
             value.next = next;
-
+        }catch (MyException e){
+            e.printMessage();
         }
     }
     /**
@@ -174,19 +177,23 @@ public class MyList<T>{
      * @param element - значение, которое необходимо вставить.
      * */
     public void set(int index, T element){
+        try{
 
-        if(index < size){
-            int i = 0;
-            Node h1 = head;
+        if(index >= size || index < 0) {
+            throw new MyException("Индекс выходит за границы списка!");
+        }
 
-            while(i <= index){
-                h1 = h1.next;
-                i++;
-            }
-            h1.value = element;
+        int i = 0;
+        Node h1 = head;
 
-        }else {
-            System.out.println("Такое действие невозможно! ");
+        while(i <= index){
+            h1 = h1.next;
+            i++;
+        }
+        h1.value = element;
+
+    }catch (MyException e){
+            e.printMessage();
         }
     }
 
@@ -222,8 +229,6 @@ public class MyList<T>{
      *
      * @param t - значение, которое будет искать метод*/
     public void removeType(T t){
-
-        //int count = 0;
 
         try{
 
