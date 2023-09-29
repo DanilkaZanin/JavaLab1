@@ -1,8 +1,7 @@
 import org.example.MyList;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.util.NoSuchElementException;
 
 import static junit.framework.TestCase.*;
 
@@ -49,33 +48,29 @@ public class AddTests {
         assertTrue(list.contains(8));
     }
 
-    //Проверка, что add обрабатывает ошибку, когда индекс указан неверно.
-    @Test
+    //Проверка, что add пробрасывает ошибку, когда индекс указан неверно.
+    @Test(expected = NoSuchElementException.class)
     public void testAddWithInvalidIndexException(){
-        Integer [] a = {1,2,3,4,5,6,7};
-
-        MyList<Integer> myList = new MyList<>(a);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setErr(new PrintStream(outputStream));
+        MyList myList = new MyList<>();
 
         myList.add(10,10);
-
-        assertEquals("Индекс выходит за границы списка!", outputStream.toString().trim());
-
     }
 
-    //Проверка, что add обрабатывает ошибку, когда значение равно null.
-    @Test
+    //Проверка, что add пробрасывает ошибку, когда значение равно null.
+    @Test(expected = NullPointerException.class)
     public void testAddWithNull() {
-        Integer[] a = {1,2,3,4};
         MyList<Integer> myList = new MyList<>();
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setErr(new PrintStream(outputStream));
-
         myList.add(null);
+    }
 
+    //Проверка, что add с индексом пробрасывает ошибку, когда значение равно null.
+    @Test(expected = NullPointerException.class)
+    public void testAddWithIndexWithNull(){
+        Integer[] arr = {1,2,3,4,5};
 
-        assertEquals("null вставлять нельзя!", outputStream.toString().trim());
+        MyList<Integer> list = new MyList<>(arr);
+
+        list.add(null,2);
     }
 }
