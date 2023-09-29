@@ -1,7 +1,5 @@
 package org.example;
 
-import org.example.Exceptions.MyException;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
