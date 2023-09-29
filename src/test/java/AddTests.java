@@ -48,7 +48,8 @@ public class AddTests {
         assertEquals(size + 1, list.size());
         assertTrue(list.contains(8));
     }
-        //Проверка, что add обрабатывает ошибку, когда индекс указан неверно.
+
+    //Проверка, что add обрабатывает ошибку, когда индекс указан неверно.
     @Test
     public void testAddWithInvalidIndexException(){
         Integer [] a = {1,2,3,4,5,6,7};
