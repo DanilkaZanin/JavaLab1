@@ -3,6 +3,7 @@ package org.example;
 import org.example.Exceptions.MyException;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Класс MyList реализует односвязный список и все его основные методы
@@ -115,26 +116,33 @@ public class MyList<T>{
      *
      * @param t - элемент, который требуется добавить
      * */
-    public void add(T t){
-        if(head!= null){
+    public void add(T t) {
+        if (t == null) {
+            throw new NullPointerException("null вставлять нельзя!");
+        }
+
+        if (head != null) {
             Node h1 = head;
 
-            while(h1.next != null){
+            while (h1.next != null) {
                 h1 = h1.next;
             }
 
             h1.next = new Node<>(t);
-        }
-        else{
+        } else {
             head = new Node<>(t);
         }
         size += 1;
+
     }
+
     /** Метод добавляет значение T на позицию index */
     public void add(T t, int index) {
-        try {
-            if (index > size - 1) {
-                throw new MyException("Такого индекса нету");
+            if (index > size - 1 || index < 0) {
+                throw new NoSuchElementException("Индекс выходит за границы списка!");
+            }
+            else if(t == null){
+                throw new NullPointerException("null вставлять нельзя!");
             }
 
             Node current = head;
@@ -147,9 +155,8 @@ public class MyList<T>{
 
             current.next = value;
             value.next = next;
-        }catch (MyException e){
-            e.printMessage();
-        }
+
+            size += 1;
     }
     /**
      * Метод contains проверяет, содержит ли список необходимый элемент
@@ -165,7 +172,7 @@ public class MyList<T>{
                 return true;
             }
             h1 = h1.next;
-        }while (h1.next != null);
+        }while (h1 != null);
         return false;
     }
 
@@ -177,10 +184,9 @@ public class MyList<T>{
      * @param element - значение, которое необходимо вставить.
      * */
     public void set(int index, T element){
-        try{
 
-        if(index >= size || index < 0) {
-            throw new MyException("Индекс выходит за границы списка!");
+        if(index > size - 1 || index < 0) {
+            throw new NoSuchElementException("Индекс выходит за границы списка!");
         }
 
         int i = 0;
@@ -191,36 +197,29 @@ public class MyList<T>{
             i++;
         }
         h1.value = element;
-
-    }catch (MyException e){
-            e.printMessage();
-        }
     }
 
     /**
      * Метод remove используется когда необходимо удалить 1 элемент в списке
      *
      * @param index - индекс элемента, который требуется удалить*/
-    public void remove(int index){
-        try{
-            if(index <= size){
-                throw new Exception("Передаваемый в параметре индекс больше размера списка!");
-            }
-            if(index == 0){
-                head = head.next;
-            }else{
-                Node current = head;
+    public void remove(int index) {
 
-                for(int i = 0; i < index - 1; i++){
-                    current = current.next;
-                }
-
-                current.next = current.next.next;
-            }
-            size--;
-        }catch (Exception e){
-            System.err.println(e.getMessage());
+        if (index > size - 1 || index < 0) {
+            throw new NoSuchElementException("Индекс выходит за границы списка!");
         }
+        if (index == 0) {
+            head = head.next;
+        } else {
+            Node current = head;
+
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+
+            current.next = current.next.next;
+        }
+        size--;
     }
 
     /**
@@ -228,69 +227,61 @@ public class MyList<T>{
      * значение которых совпадает со значением указанном в агрументе метода
      *
      * @param t - значение, которое будет искать метод*/
-    public void removeType(T t){
+    public void removeType(T t) {
 
-        try{
 
-            if(head == null) {
-                throw new MyException("Список пуст!");
-            }
-            int countOfDeleted = 0;
-
-            Node current = head;
-            Node prev = null;
-
-            do{
-                if(current.value != t){
-                    prev = current;
-                    current = current.next;
-                }
-                else {
-                    if(prev != null) {
-                        prev.next = current.next;
-                        current = current.next;
-                    }
-                    else{
-                        head = head.next;
-                    }
-
-                    countOfDeleted += 1;
-                }
-            }while(current != null);
-
-            if(countOfDeleted != 0){
-                System.out.println("Удалено " + countOfDeleted + " переменных!");
-            }else{
-                System.out.println("В списке таких значений нету");
-            }
-
-            size -=countOfDeleted;
-        }catch (MyException e){
-            e.printMessage();
+        if (head == null) {
+            throw new NullPointerException("Список пуст!");
         }
+        int countOfDeleted = 0;
+
+        Node current = head;
+        Node prev = null;
+
+        do {
+            if (current.value != t) {
+                prev = current;
+                current = current.next;
+            } else {
+                if (prev != null) {
+                    prev.next = current.next;
+                    current = current.next;
+                } else {
+                    head = head.next;
+                }
+
+                countOfDeleted += 1;
+            }
+        } while (current != null);
+
+        if (countOfDeleted != 0) {
+            System.out.println("Удалено " + countOfDeleted + " переменных!");
+        } else {
+            System.out.println("В списке таких значений нету");
+        }
+
+        size -= countOfDeleted;
+
     }
 
     /**
      * Метод принт выводит все элементы списка в строку
      * */
-    public void print(){
+    public void print() {
 
-        try{
-            if (head == null){
-                throw new MyException("Список пуст!");
-            }
-
-            Node h1 = head;
-
-            do{
-                System.out.print(h1.value + " ");
-                h1 = h1.next;
-            }while (h1 != null);
-
-            System.out.println();
-        }catch (MyException e){
-            e.printMessage();
+        if (head == null) {
+            throw new NullPointerException("Список пуст!");
         }
+
+        Node h1 = head;
+
+        do {
+            System.out.print(h1.value + " ");
+            h1 = h1.next;
+        } while (h1 != null);
+
+        System.out.println();
+
     }
 
     /**Метод size показывает текущий размер списка*/
