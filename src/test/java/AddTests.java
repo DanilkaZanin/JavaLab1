@@ -24,7 +24,7 @@ public class AddTests {
     public void testAddInNotEmptyList(){
         Integer [] a = {1,2,3,4,5,6,7};
 
-        MyList<Integer> list =new MyList(a);
+        MyList<Integer> list = new MyList(a);
 
         int size = list.size();
 
@@ -34,7 +34,21 @@ public class AddTests {
         assertTrue(list.contains(8));
     }
 
-    //Проверка, что add обрабатывает ошибку, когда индекс указан неверно.
+    //Проверка, что add корректно добавляет элемент в список существующих элементов после заданного индекса
+    @Test
+    public void testAddWithIndexInNotEmptyList(){
+        Integer [] a = {1,2,3,4,5,6,7};
+
+        MyList<Integer> list = new MyList(a);
+
+        int size = list.size();
+
+        list.add(8,3);
+
+        assertEquals(size + 1, list.size());
+        assertTrue(list.contains(8));
+    }
+        //Проверка, что add обрабатывает ошибку, когда индекс указан неверно.
     @Test
     public void testAddWithInvalidIndexException(){
         Integer [] a = {1,2,3,4,5,6,7};
