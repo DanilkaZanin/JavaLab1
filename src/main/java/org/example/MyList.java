@@ -165,6 +165,7 @@ public class MyList<T>{
      **/
     public boolean contains(T t){
         Node h1 = head;
+
         do{
             if(h1.value == t){
                 return true;
@@ -181,7 +182,7 @@ public class MyList<T>{
      *
      * @param element - значение, которое необходимо вставить.
      * */
-    public void set(int index, T element){
+    public void set(T element, int index){
 
         if(index > size - 1 || index < 0) {
             throw new NoSuchElementException("Индекс выходит за границы списка!");
@@ -190,7 +191,7 @@ public class MyList<T>{
         int i = 0;
         Node h1 = head;
 
-        while(i <= index){
+        while(i < index){
             h1 = h1.next;
             i++;
         }
